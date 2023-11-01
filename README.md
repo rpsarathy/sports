@@ -58,13 +58,19 @@ Create an API endpoint to delete sports and their associated data.
 Implement an API endpoint to provide a paginated player list with sports filtering.
 Pagination should be by 10 players per page.
 
-Requirement to run application :
+The requirement to run the application :
 
 Java 17
 
 Maven
 
 IDE
+
+SpringBoot
+
+H2 DB (MODE=MYSQL)
+
+
 
 
 
