@@ -1,0 +1,3 @@
+2023-10-31 19:24:57 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PLAYERS" not found (this database is empty); SQL statement:
+delete from PLAYERS [42104-214]
