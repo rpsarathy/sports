@@ -11,21 +11,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class SportsService {
 
-    private final SportsRepository repository;
-    private final PlayerRepository playerRepository;
-
     @Autowired
-    public SportsService(SportsRepository repository, PlayerRepository playerRepository) {
-        this.repository = repository;
-        this.playerRepository = playerRepository;
-    }
-
+    private  SportsRepository repository;
+    @Autowired
+    private  PlayerRepository playerRepository;
 
     /*
        Get Sports with all players
@@ -43,8 +41,13 @@ public class SportsService {
      *
      * @param sportsName
      */
-    public void deleteByName(String sportsName) {
-        repository.deleteById(sportsName);
+    public String deleteByName(String sportsName) {
+        try {
+            repository.deleteById(sportsName);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return "SUCCESS";
     }
 
     /**
@@ -53,9 +56,9 @@ public class SportsService {
      * @param sports
      * @return
      */
-    public List<Sports> updatePlayerSports(String playerName, List<Sports> sports) {
+    public List<Players> updatePlayerSports(String playerName, List<Sports> sports) {
 
-        List<Sports> updateSportsList = null;
+        List<Players> updatedPlayerList = null;
         Optional<Players> optionalUser = playerRepository.findById(playerName);
 
         if (optionalUser.isEmpty()) {
@@ -63,9 +66,14 @@ public class SportsService {
         }
 
         if (optionalUser.isPresent()) {
-            updateSportsList = repository.saveAll(sports);
+            Set<Sports> sportsSet= sports.stream().collect(Collectors.toSet());
+            Players players=optionalUser.get();
+            players.setSports(sportsSet);
+            List<Players> list=new ArrayList<>();
+            list.add(players);
+            updatedPlayerList= playerRepository.saveAll(list);
         }
 
-        return updateSportsList;
+        return updatedPlayerList;
     }
 }

@@ -19,11 +19,8 @@ import java.util.List;
 @RequestMapping("/players")
 public class PlayersController {
 
-    private final PlayersService service;
-
-    public PlayersController(PlayersService service) {
-        this.service = service;
-    }
+    @Autowired
+    private  PlayersService service;
 
     /**
      * Players with No Sports

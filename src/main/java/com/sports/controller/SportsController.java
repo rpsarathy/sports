@@ -1,5 +1,6 @@
 package com.sports.controller;
 
+import com.sports.entity.Players;
 import com.sports.entity.Sports;
 import com.sports.services.SportsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,8 @@ import java.util.List;
 @RequestMapping("/sports")
 public class SportsController {
 
-    private final SportsService service;
-
-    public SportsController(SportsService service) {
-        this.service = service;
-    }
+    @Autowired
+    private  SportsService service;
 
     /*
       This method is to return sports with Players
@@ -39,8 +37,8 @@ public class SportsController {
      * @return
      */
 
-    @DeleteMapping("{name}")
-    public ResponseEntity<String> deleteSportsWithName(@RequestParam String name) {
+    @DeleteMapping("/deletesport/{name}")
+    public ResponseEntity<String> deleteSportsWithName(@PathVariable("name")  String name) {
         try {
             service.deleteByName(name);
             return new ResponseEntity<String>("Sport deleted successfully!.", HttpStatus.OK);
@@ -55,8 +53,8 @@ public class SportsController {
      * @param sportsList
      * @return
      */
-    @PutMapping(value = "/update/{playerName}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Sports>> updatePlayerSports(@RequestParam String playerName, @RequestBody List<Sports> sportsList) {
+    @PutMapping(value = "/update",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Players>> updatePlayerSports(@RequestParam String playerName, @RequestBody List<Sports> sportsList) {
       try{
         return ResponseEntity.ok(service.updatePlayerSports(playerName,sportsList));
       } catch (Exception e) {

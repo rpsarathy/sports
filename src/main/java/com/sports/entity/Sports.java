@@ -11,11 +11,13 @@ import java.util.Set;
 public class Sports {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @ManyToMany(mappedBy = "sports")
+    @ManyToMany(mappedBy = "sports",fetch = FetchType.EAGER)
     private Set<Players> players;
 
 }

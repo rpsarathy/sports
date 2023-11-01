@@ -28,11 +28,6 @@ public interface PlayerRepository extends JpaRepository<Players, String> {
      * @return
      */
     @Query(
-            //value = "SELECT players FROM PLAYERS players,Sports sports WHERE count(sports.name) = 0 "
             value = "select id,email,age,gender,level from PLAYERS LEFT JOIN PLAYERS_SPORTS on ID =PLAYERS_ID where SPORTS_ID is null", nativeQuery = true)
-
             List<Players> findPlayersWithNoSports();
-
-
-
 }

@@ -11,17 +11,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class PlayersService {
 
-    private final PlayerRepository repository;
-
-    public PlayersService(PlayerRepository repository) {
-        this.repository = repository;
-    }
+    @Autowired
+    private  PlayerRepository repository;
 
     /**
      * This method returs players with no sports
@@ -50,8 +48,14 @@ public class PlayersService {
         if (pageablePlayers.isEmpty()) {
             throw new NoPlayersFoundException("No Player Found");
         }
-
-        List<Players> list = pageablePlayers.stream().filter(x -> x.equals(sportsName)).collect(Collectors.toList());
+        List<Players> list=new ArrayList<>();
+        for(Players player:pageablePlayers){
+            for(Sports sports:player.getSports()){
+                if(sports.getName().equalsIgnoreCase(sportsName)){
+                    list.add(player);
+                }
+            }
+        }
 
         if (CollectionUtils.isEmpty(list)) {
             throw new NoPlayersFoundException("No Player Found");
