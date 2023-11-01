@@ -3,6 +3,9 @@ package com.sports.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,7 +28,10 @@ public class Players {
     @Column(name = "gender", length = 8)
     private String gender;
 
-    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
-    private Set<Sports> sports;
-
+    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "players_sports",
+            joinColumns = @JoinColumn(name = "players_id"),
+            inverseJoinColumns = @JoinColumn(name = "sports_id"))
+    private Set<Sports> sports=new HashSet<>();
 }

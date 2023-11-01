@@ -3,6 +3,9 @@ package com.sports.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,7 +20,7 @@ public class Sports {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @ManyToMany(mappedBy = "sports",fetch = FetchType.EAGER)
-    private Set<Players> players;
+    @ManyToMany(mappedBy = "sports",fetch = FetchType.LAZY)
+    private Set<Players> players=new HashSet<>();
 
 }

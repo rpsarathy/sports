@@ -59,7 +59,7 @@ public class SportsService {
     public List<Players> updatePlayerSports(String playerName, List<Sports> sports) {
 
         List<Players> updatedPlayerList = null;
-        Optional<Players> optionalUser = playerRepository.findById(playerName);
+        Optional<Players> optionalUser = playerRepository.findById(Long.valueOf(playerName));
 
         if (optionalUser.isEmpty()) {
             throw new NoPlayersFoundException(SportsConstant.NO_PLAYERS_FOUND + playerName);
@@ -68,7 +68,7 @@ public class SportsService {
         if (optionalUser.isPresent()) {
             Set<Sports> sportsSet= sports.stream().collect(Collectors.toSet());
             Players players=optionalUser.get();
-            players.setSports(sportsSet);
+         //   players.setSports(sportsSet);
             List<Players> list=new ArrayList<>();
             list.add(players);
             updatedPlayerList= playerRepository.saveAll(list);

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface PlayerRepository extends JpaRepository<Players, String> {
+public interface PlayerRepository extends JpaRepository<Players, Long> {
 
     /**
      * This query to get the list of players based on the below parameters
@@ -27,7 +27,10 @@ public interface PlayerRepository extends JpaRepository<Players, String> {
      *   This Query is to find the Playesr with NO sports
      * @return
      */
+  //  value = "select players from PLAYERS LEFT JOIN PLAYERS_SPORTS on ID =PLAYERS_ID where SPORTS_ID is null"
+    //@Query("from Players players left join players.sports sports")
+
     @Query(
             value = "select id,email,age,gender,level from PLAYERS LEFT JOIN PLAYERS_SPORTS on ID =PLAYERS_ID where SPORTS_ID is null", nativeQuery = true)
-            List<Players> findPlayersWithNoSports();
+    List<Players> findPlayersWithNoSports();
 }
